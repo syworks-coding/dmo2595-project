@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+
+  <hr />
+  <div>
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+    </tr>
+    <tr th:each="posts : ${postList}">
+      <td><a href="detail.html" th:href="@{/posts/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" th:method="get">글 ID</a></td>
+      <td><a href="detail.html" th:href="@{/posts/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" th:method="get">제목</a></td>
+      <td th:text="${posts.name}">작성자</td>
+      <td th:text="${posts.viewCount}">조회수</td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

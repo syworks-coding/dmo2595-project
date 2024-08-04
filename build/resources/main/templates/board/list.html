@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Board List</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div>
+  <h1>Board List</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Views</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+      <td th:text="${board.title}"></td>
+      <td th:text="${board.authorName + '[' + board.authorId + ']'}"></td>
+      <td th:text="${board.views}"></td>
+      <td>
+        <a th:href="@{/board/{id}(id=${board.id})}">View</a>
+        <span th:if="${#authentication.principal?.username == board.authorId}">
+                            <a th:href="@{/board/edit/{id}(id=${board.id})}">Edit</a>
+                            <a th:href="@{/board/delete/{id}(id=${board.id})}">Delete</a>
+                        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/board/new}">New Post</a>
+</div>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>
