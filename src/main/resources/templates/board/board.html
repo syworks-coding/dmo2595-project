@@ -4,7 +4,12 @@
   <meta charset="utf-8">
 </head>
 <body>
-
+<form th:action="@{/}" method="get">
+  <button type="submit">메인페이지</button>
+</form>
+<form th:action="@{/posts/upload}" method="get">
+  <button type="submit">게시글 작성</button>
+</form>
   <hr />
   <div>
 
@@ -15,10 +20,10 @@
       <th>작성자</th>
       <th>조회수</th>
     </tr>
-    <tr th:each="posts : ${postList}">
-      <td><a href="detail.html" th:href="@{/posts/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" th:method="get">글 ID</a></td>
-      <td><a href="detail.html" th:href="@{/posts/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" th:method="get">제목</a></td>
-      <td th:text="${posts.name}">작성자</td>
+    <tr th:each="posts : ${postList}" th:method="get">
+      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" >글 ID</a></td>
+      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.title}" >제목</a></td>
+      <td th:text="${posts.userName}">작성자</td>
       <td th:text="${posts.viewCount}">조회수</td>
     </tr>
   </table>

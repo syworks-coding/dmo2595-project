@@ -19,6 +19,10 @@ public class Like {
     private Long likeId;
 
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
+
+    @Column(name = "comment_id")
+    private Long commentId;
+
 
 }

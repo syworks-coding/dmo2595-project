@@ -6,11 +6,13 @@ import com.example.syworks_dmo2595.service.dto.request.UserServiceLoginRequest;
 import com.example.syworks_dmo2595.service.dto.request.UserServiceSignupRequest;
 import com.example.syworks_dmo2595.service.dto.response.UserServiceLoginResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImp implements UserService{
     private final UserRepository userRepository;
 
@@ -38,12 +40,12 @@ public class UserServiceImp implements UserService{
         Boolean isExistUserId = userRepository.existsByLoginId(request.getLoginId());
         Boolean isExistPassword = userRepository.existsByPassword(request.getPassword());
 
-        if (!isExistUserId && !isExistPassword) throw new RuntimeException();
         User user = userRepository.findByLoginIdAndPassword(request.getLoginId(), request.getPassword());
+        System.out.println("로그인아이디 : " + user.getLoginId());
+        System.out.println("사용자 이름 : " + user.getUserName());
 
         return UserServiceLoginResponse.builder()
-                .loginId(user.getLoginId())
-                .userName(user.getUserName())
+                .userId(user.getUserId())
                 .build();
     }
 

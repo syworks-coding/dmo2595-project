@@ -1,13 +1,15 @@
 package com.example.syworks_dmo2595.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Setter
+@Getter
 @Table(name = "comment_table")
 public class Comment {
 
@@ -19,8 +21,11 @@ public class Comment {
     @Column(name = "post_id")
     private Long postId;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "comment")
+    private String comment;
 
     @Column(name = "parent_id")
     private Long parentId;

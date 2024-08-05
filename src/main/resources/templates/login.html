@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <title>로그인</title>
 </head>
+
+
+
 <body>
+
+<form th:action="@{/}" method="get">
+    <button type="submit">메인페이지</button>
+</form>
+
 <h1>로그인</h1>
 <form th:action="@{/users/login}" th:method="post">
     <div>

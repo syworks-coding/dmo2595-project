@@ -1,9 +1,6 @@
 package com.example.syworks_dmo2595.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,16 +9,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 @Table(name = "post_table")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "postId", unique = true)
+    @Column(name = "post_id", unique = true)
     private Long postId;
 
-    @Column(name = "userId")
-    private String userId;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "title")
     private String title;
@@ -31,5 +29,9 @@ public class Post {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "view_count")
+    private Long viewCount;
+
 
 }

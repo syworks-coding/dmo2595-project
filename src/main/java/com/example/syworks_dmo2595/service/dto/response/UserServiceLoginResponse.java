@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class UserServiceLoginResponse {
-    private String userName;
-    private String loginId;
+    private Long userId;
 
 }

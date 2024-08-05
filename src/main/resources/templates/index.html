@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>main</title>
 </head>
+
+
+
+
 <body>
 <h1>메인페이지</h1>
 <form th:action="@{/users/login}" method="get">
@@ -15,7 +19,7 @@
 <form th:action="@{/users/logout}" method="get">
     <button type="submit">로그아웃</button>
 </form>
-<form th:action="@{/posts/list}" method="get">
+<form th:action="@{/posts/board}" method="get">
     <button type="submit">게시판</button>
 </form>
 

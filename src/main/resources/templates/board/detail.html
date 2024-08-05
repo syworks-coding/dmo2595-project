@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글</title>
+</head>
+
+<body th:with="postId=${postId}">
+
+<form th:action="@{/posts/board}" method="get">
+    <button type="submit">게시판</button>
+</form>
+<form th:action = "@{/posts/detail/edit/{postId}(postId=${postId})}" th:method="get">
+    <button type="submit">게시글 수정</button>
+</form>
+<form th:action = "@{/posts/detail/{postId}(postId=${postId})}" th:method="delete">
+    <button type="submit">게시글 삭제</button>
+</form>
+
+
+<form th:action = "@{/posts/detail}" th:method="get">
+    <td th:text=" ${userName}+'[' +${loginId}+']' ">작성자</td>
+    <hr />
+    <h1>
+        <td th:text="${title}">제목</td>
+    </h1>
+    <hr/>
+    <p>
+        <td th:text="${content}">내용</td>
+    </p>
+</form>
+
+<hr />
+
+<table class="table">
+    <thead>
+    <tr><th>댓글</th></tr>
+    </thead>
+    <form th:action = "@{/posts/detail/comment/{postId}(postId=${postId})}" th:method="post">
+        <div>
+            <input th:type="text" id="comment" name="comment" placeholder="댓글을 입력하십시오">
+        </div>
+        <div>
+            <button type="submit">댓글 작성</button>
+        </div>
+    </form>
+    </table>
+    <hr />
+
+<table class="table">
+    <tbody>
+    <tr>
+        <th>댓쓴이 이름</th>
+        <th>댓글 내용</th>
+    </tr>
+
+
+    <tr th:each="info : ${commentList}" th:method="get">
+        <td th:text="${info.userName}">댓쓴이 이름</td>
+        <td th:text="${info.comment}">댓글 내용</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

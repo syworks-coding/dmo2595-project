@@ -22,24 +22,42 @@ public class UserController {
 
     //페이지 불러오기
     @GetMapping("/signup")
-    public String loadSignupPage(Model model) {
-        model.addAttribute("name", "내이름");
-        model.addAttribute("img", "image/파일명");
+    public String loadSignupPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            model.addAttribute("message", "로그아웃 해주세요");
+            model.addAttribute("searchUrl", "/");
+            return "message";
+        }
         return "signup";
     }
     @GetMapping("/logout")
-    public String logoutUser(HttpServletRequest request) {
+    public String logoutUser(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         if (session != null) {
+            System.out.println("세션파기 : " + session.getAttribute("userName"));
             session.invalidate();
+            model.addAttribute("message", "로그아웃 성공");
+            model.addAttribute("searchUrl", "/");
         }
-        return "redirect:/";
+        else {
+            model.addAttribute("message", "로그인 되어있지 않습니다.");
+            model.addAttribute("searchUrl", "/");
+
+        }
+
+        return "message";
     }
     @GetMapping("/login")
-    public String loginUser() {
-
+    public String loadLoginPage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            model.addAttribute("message", "이미 로그인 상태입니다.");
+            model.addAttribute("searchUrl", "/");
+            return "message";
+        }
         return "login";
-    }
+    }//페이지
 
     @PostMapping("/signup")
     public final String saveUser(UserSignUpRequestBody requestBody) {
@@ -55,24 +73,41 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public final String loginUser(UserLoginRequestBody requestBody, HttpServletRequest request) {
-//        HttpSession session = request.getSession(false);
-//        if(session == null) {
-//            userService.loginUser(UserServiceLoginRequest.builder()
-//                    .loginId(requestBody.getLoginId())
-//                    .password(requestBody.getPassword())
-//                    .build());
-//
-//            session.setAttribute("loginId", requestBody.getLoginId());
-//
-//        }
-        userService.loginUser(UserServiceLoginRequest.builder()
-                .loginId(requestBody.getLoginId())
-                .password(requestBody.getPassword())
-                .build());
+    public final String loginUser(UserLoginRequestBody requestBody, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        UserServiceLoginResponse userServiceLoginResponse;
+        if(session == null) {
+            session = request.getSession(true);
+            session.setMaxInactiveInterval(1800);
+            try{
+                userServiceLoginResponse = userService.loginUser(UserServiceLoginRequest.builder()
+                        .loginId(requestBody.getLoginId())
+                        .password(requestBody.getPassword())
+                        .build());
+            } catch (Exception e) {
+                session.invalidate();
+                model.addAttribute("message", "아이디 비밀번호 불일치");
+                model.addAttribute("searchUrl", "/");
+                return "message";
+            }
+
+            session.setAttribute("userId", userServiceLoginResponse.getUserId());
+            model.addAttribute("message", "로그인 성공");
+            model.addAttribute("searchUrl", "/");
+
+            return "message";
+        }
+        else{
+            model.addAttribute("message", "오류");
+            model.addAttribute("searchUrl", "/");
+            return "message";
+        }
 
 
-        return "redirect:/";
+//        userService.loginUser(UserServiceLoginRequest.builder()
+//                .loginId(requestBody.getLoginId())
+//                .password(requestBody.getPassword())
+//                .build());
     }
 
 

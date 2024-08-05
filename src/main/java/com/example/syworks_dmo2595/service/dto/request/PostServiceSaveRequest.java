@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PostServiceSaveRequest {
-    private String userId;
+    private Long userId;
     private String title;
     private String content;
     private String password;
