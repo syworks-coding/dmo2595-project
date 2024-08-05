@@ -158,10 +158,7 @@ public class PostController {
 
         return "message";
     }
-    @GetMapping
-    public final void getPostById() {
 
-    }
 
 
 }
