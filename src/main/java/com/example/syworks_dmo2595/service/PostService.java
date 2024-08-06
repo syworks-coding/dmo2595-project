@@ -22,5 +22,9 @@ public interface PostService {
     public void saveComment(PostServiceSaveCommentRequest request);
     public void editPost(PostServiceEditRequest request);
     public void updataViewCount(Long postId, HttpServletResponse response, HttpServletRequest request);
+    public Boolean updatePostLike(Long postId, Long userId);
+    public Long updateCommentLike(Long commentId, Long userId);
+    public void deleteComment(Long commentId, Long userId);
+
 
 }

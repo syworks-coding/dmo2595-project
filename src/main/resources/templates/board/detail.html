@@ -16,6 +16,9 @@
 <form th:action = "@{/posts/detail/{postId}(postId=${postId})}" th:method="delete">
     <button type="submit">게시글 삭제</button>
 </form>
+<form th:action = "@{/posts/detail/like/post/{postId}(postId=${postId})}" th:method="put">
+    <button type="submit">게시글 좋아요</button>
+</form>
 
 
 <form th:action = "@{/posts/detail}" th:method="get">
@@ -50,14 +53,37 @@
 <table class="table">
     <tbody>
     <tr>
-        <th>댓쓴이 이름</th>
-        <th>댓글 내용</th>
+        <th>댓쓴이 이름  </th>
+        <th>댓글 내용  </th>
+        <th>댓글 좋아요  </th>
+        <th>댓글 아이디  </th>
     </tr>
 
+<!--    대댓글 추가시 변경사항 parentId가 있으면 대댓글으로 표시해주기, 조건문으로 대댓글의 대댓글 달기 버튼 삭제-->
 
-    <tr th:each="info : ${commentList}" th:method="get">
+    <tr th:each="info : ${commentList}">
         <td th:text="${info.userName}">댓쓴이 이름</td>
         <td th:text="${info.comment}">댓글 내용</td>
+        <td th:text="${info.likeCount}">좋아요</td>
+        <td th:text="${info.commentId}">댓글아이디</td>
+        <td>
+            <form id="likeUpdate" th:action="@{/posts/detail/like/comment/{commentId}(commentId=${info.commentId})}" th:method="put">
+<!--                <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>-->
+                <button type="submit" form="likeUpdate">좋아요</button>
+            </form>
+        </td>
+        <td>
+            <form id="deleteComment" th:action="@{/posts/detail/comment}" th:method="delete">
+                <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>
+                <button type="submit" form="deleteComment">삭제</button>
+            </form>
+        </td>
+        <td>
+            <form id="editComment" th:action="@{/posts/detail/comment}" th:method="put">
+                <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>
+                <button type="submit" form="editComment">수정</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

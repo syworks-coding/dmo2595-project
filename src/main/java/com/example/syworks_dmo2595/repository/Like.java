@@ -24,5 +24,8 @@ public class Like {
     @Column(name = "comment_id")
     private Long commentId;
 
+    @Column(name = "post_id")
+    private Long postId;
+
 
 }

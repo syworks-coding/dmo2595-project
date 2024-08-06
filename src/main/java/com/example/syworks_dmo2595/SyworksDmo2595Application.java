@@ -8,8 +8,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 
 
-//TODO : 대댓글, 게시글 좋아요, 댓글삭제, 댓글 좋아요
-//FIXME : 서버 실행할때 쿠키 초기화 하도록 수정 필요
+//TODO : 대댓글, 댓글삭제, 댓글 좋아요 -> commentID가져오는거 해결해야지 구현가능
 @SpringBootApplication
 @EnableScheduling
 public class SyworksDmo2595Application {

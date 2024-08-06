@@ -12,4 +12,5 @@ public class PostServiceFindCommentResponse {
     private String userName;
     private Long parentId;
     private String comment;
+    private Integer likeCount;
 }

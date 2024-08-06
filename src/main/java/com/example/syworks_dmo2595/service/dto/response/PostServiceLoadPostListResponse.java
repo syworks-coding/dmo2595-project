@@ -15,5 +15,6 @@ public class PostServiceLoadPostListResponse {
     private Long postId;
     private String title;
     private Long viewCount;
+    private Long likeCount;
 
 }

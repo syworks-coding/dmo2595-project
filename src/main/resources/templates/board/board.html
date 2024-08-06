@@ -25,6 +25,7 @@
       <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.title}" >제목</a></td>
       <td th:text="${posts.userName}">작성자</td>
       <td th:text="${posts.viewCount}">조회수</td>
+      <td th:text="${posts.likeCount}">좋아요 수</td>
     </tr>
   </table>
 </div>
