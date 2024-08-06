@@ -69,19 +69,19 @@
         <td>
             <form id="likeUpdate" th:action="@{/posts/detail/like/comment/{commentId}(commentId=${info.commentId})}" th:method="put">
 <!--                <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>-->
-                <button type="submit" form="likeUpdate">좋아요</button>
+                <button type="submit" >좋아요</button>
             </form>
         </td>
         <td>
             <form id="deleteComment" th:action="@{/posts/detail/comment}" th:method="delete">
                 <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>
-                <button type="submit" form="deleteComment">삭제</button>
+                <button type="submit" >삭제</button>
             </form>
         </td>
         <td>
             <form id="editComment" th:action="@{/posts/detail/comment}" th:method="put">
                 <input type="hidden" th:value="${info.commentId}" th:name="commentId"/>
-                <button type="submit" form="editComment">수정</button>
+                <button type="submit" >수정</button>
             </form>
         </td>
     </tr>
