@@ -299,9 +299,8 @@ public class PostServiceImp implements PostService {
     private Cookie createCookie(Long postId) {
         Cookie cookie = new Cookie("alreadyViewed"+postId, String.valueOf(postId));
         cookie.setComment("조회수 중복 증가 방지 쿠키");
-//        cookie.setMaxAge(getRemainSecondForTommorow());
-//        cookie.setMaxAge(24*60*60);   //하루
-        cookie.setMaxAge(10);
+        cookie.setMaxAge(24*60*60);   //하루
+//        cookie.setMaxAge(10);
 //        cookie.setHttpOnly(true);
         return cookie;
     }

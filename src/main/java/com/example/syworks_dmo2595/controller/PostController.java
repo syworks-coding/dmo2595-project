@@ -82,7 +82,12 @@ public class PostController {
 //    }//페이지
 
     @GetMapping("detail/edit/{postId}")
-    public ModelAndView loadPostEditPage(@PathVariable Long postId, Model model) {
+    public ModelAndView loadPostEditPage(@PathVariable Long postId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            modelAndView = needLoginResponse.needLogin(model);
+            return modelAndView;
+        }
         modelAndView.setViewName("board/edit.html");
 
         return modelAndView;
@@ -130,12 +135,7 @@ public class PostController {
     //게시글 수정
     @PutMapping("detail/{postId}")
     public ModelAndView editPost(@PathVariable Long postId, PostEditRequestBody postEditRequestBody, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
 
-        if (session == null) {
-            modelAndView = needLoginResponse.needLogin(model);
-            return modelAndView;
-        }
         try {
             postService.editPost(PostServiceEditPostRequest.builder()
                     .title(postEditRequestBody.getTitle())

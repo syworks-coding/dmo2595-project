@@ -35,7 +35,6 @@ public class UserController {
     public String logoutUser(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            System.out.println("세션파기 : " + session.getAttribute("userName"));
             session.invalidate();
             model.addAttribute("message", "로그아웃 성공");
             model.addAttribute("searchUrl", "/");
