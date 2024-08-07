@@ -196,13 +196,13 @@ public class PostServiceImp implements PostService {
 
             }
             if (!checkCookie) {
-                Cookie newCookie = createCookieForForNotOverlap(postId);
+                Cookie newCookie = createCookie(postId);
                 response.addCookie(newCookie);
                 post.setViewCount(post.getViewCount() + 1L);
                 postRepository.save(post);
             }
         } else {
-            Cookie newCookie = createCookieForForNotOverlap(postId);
+            Cookie newCookie = createCookie(postId);
             response.addCookie(newCookie);
             post.setViewCount(post.getViewCount() + 1L);
             postRepository.save(post);
@@ -296,18 +296,15 @@ public class PostServiceImp implements PostService {
     }
 
 
-    private Cookie createCookieForForNotOverlap(Long postId) {
+    private Cookie createCookie(Long postId) {
         Cookie cookie = new Cookie("alreadyViewed"+postId, String.valueOf(postId));
         cookie.setComment("조회수 중복 증가 방지 쿠키");
-        cookie.setMaxAge(getRemainSecondForTommorow());
-//        cookie.setMaxAge(1);
+//        cookie.setMaxAge(getRemainSecondForTommorow());
+//        cookie.setMaxAge(24*60*60);   //하루
+        cookie.setMaxAge(10);
 //        cookie.setHttpOnly(true);
         return cookie;
     }
-    private int getRemainSecondForTommorow() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime tommorow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
-        return (int) now.until(tommorow, ChronoUnit.SECONDS);
-    }
+
 
 }
