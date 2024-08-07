@@ -11,21 +11,27 @@
   <button type="submit">게시글 작성</button>
 </form>
   <hr />
-  <div>
+<div>
 
   <table class="table">
+    <tbody>
     <tr>
       <th>ID</th>
       <th>제목</th>
       <th>작성자</th>
       <th>조회수</th>
+      <th>좋아요수</th>
     </tr>
     <tr th:each="posts : ${postList}" th:method="get">
-      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.postId}" >글 ID</a></td>
-      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.title}" >제목</a></td>
+      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}" th:text="${posts.postId}">글
+        ID</a></td>
+      <td><a href="detail.html" th:href="@{/posts/detail/{postId}(postId=${posts.postId})}"
+             th:text="${posts.title}">제목</a></td>
       <td th:text="${posts.userName}">작성자</td>
       <td th:text="${posts.viewCount}">조회수</td>
+      <td th:text="${posts.likeCount}">좋아요 수</td>
     </tr>
+    </tbody>
   </table>
 </div>
 

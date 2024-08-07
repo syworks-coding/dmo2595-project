@@ -30,4 +30,5 @@ public class Comment {
     @Column(name = "parent_id")
     private Long parentId;
 
+
 }

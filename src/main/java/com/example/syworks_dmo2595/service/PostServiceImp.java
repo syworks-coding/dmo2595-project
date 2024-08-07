@@ -1,12 +1,13 @@
 package com.example.syworks_dmo2595.service;
 
 import com.example.syworks_dmo2595.repository.*;
-import com.example.syworks_dmo2595.service.dto.request.PostServiceEditRequest;
-import com.example.syworks_dmo2595.service.dto.request.PostServiceSaveCommentRequest;
-import com.example.syworks_dmo2595.service.dto.request.PostServiceSaveRequest;
+import com.example.syworks_dmo2595.service.dto.request.*;
+import com.example.syworks_dmo2595.service.dto.response.PostServiceDeleteCommentResponse;
 import com.example.syworks_dmo2595.service.dto.response.PostServiceFindCommentResponse;
 import com.example.syworks_dmo2595.service.dto.response.PostServiceFindPostDetailResponse;
 import com.example.syworks_dmo2595.service.dto.response.PostServiceLoadPostListResponse;
+import com.example.syworks_dmo2595.vos.CommentVO;
+import com.example.syworks_dmo2595.vos.ReplyVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,18 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
+    public Long findUserByCommentId(Long commentId) {
+
+        return commentRepository.findByCommentId(commentId).getUserId();
+    }
+
+    @Override
+    public Long findPostIdByCommentId(Long commentId) {
+
+        return commentRepository.findByCommentId(commentId).getPostId();
+    }
+
+    @Override
     public PostServiceFindPostDetailResponse findPost(Long postId) {
         Post post = postRepository.findById(postId).get();
         User user = userRepository.findByUserId(post.getUserId());
@@ -68,6 +81,7 @@ public class PostServiceImp implements PostService {
                 .loginId(user.getLoginId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .viewCount(post.getViewCount())
                 .build();
     }
 
@@ -93,23 +107,55 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public List<PostServiceFindCommentResponse> findComment(Long postId) {
-        List<Comment> commentList = commentRepository.findAllByPostIdOrderByCommentId(postId);
-        List<PostServiceFindCommentResponse> responseList = new ArrayList<>();
+    public PostServiceFindCommentResponse findCommentList(Long postId) {
+        List<Comment> commentList = commentRepository.findAllByPostIdAndParentIdIsNullOrderByCommentId(postId);
+        List<Comment> replyList = commentRepository.findAllByParentIdIsNotNullAndPostIdOrderByCommentId(postId);
+//        List<Comment> commentList = commentRepository.findAllByPostIdOrderByCommentId(postId);
+        PostServiceFindCommentResponse responseLists = new PostServiceFindCommentResponse();
+        List<CommentVO> responseCommentList = new ArrayList<>();
+        List<ReplyVO> responseReplyList = new ArrayList<>();
+
         Integer likeCount = 0;
         for (Comment comment : commentList) {
-            User user = userRepository.findByUserId(comment.getUserId());
-            likeCount = likeRepository.countByCommentId(comment.getCommentId());
-            PostServiceFindCommentResponse postServiceFindCommentResponse = new PostServiceFindCommentResponse();
-            postServiceFindCommentResponse.setCommentId(comment.getCommentId());
-            postServiceFindCommentResponse.setUserName(user.getUserName()+'['+user.getLoginId()+']');
-            postServiceFindCommentResponse.setComment(comment.getComment());
-            postServiceFindCommentResponse.setParentId(comment.getParentId());
-            postServiceFindCommentResponse.setLikeCount(likeCount);
+            if (comment.getParentId() == null) {
+                User user = userRepository.findByUserId(comment.getUserId());
+                likeCount = likeRepository.countByCommentId(comment.getCommentId());
 
-            responseList.add(postServiceFindCommentResponse);
+
+                CommentVO commentVO = new CommentVO();
+                commentVO.setCommentId(comment.getCommentId());
+                commentVO.setUserName(user.getUserName() + '[' + user.getLoginId() + ']');
+                commentVO.setComment(comment.getComment());
+                commentVO.setParentId(comment.getParentId());
+                commentVO.setLikeCount(likeCount);
+
+                responseCommentList.add(commentVO);
+
+
+            }
         }
-        return responseList;
+
+        for (Comment reply : replyList) {
+            if (reply.getParentId() != null) {
+                User user = userRepository.findByUserId(reply.getUserId());
+                likeCount = likeRepository.countByCommentId(reply.getCommentId());
+
+                ReplyVO replyVO = new ReplyVO();
+
+                replyVO.setCommentId(reply.getCommentId());
+                replyVO.setUserName(user.getUserName() + '[' + user.getLoginId() + ']');
+                replyVO.setComment(reply.getComment());
+                replyVO.setParentId(reply.getParentId());
+                replyVO.setLikeCount(likeCount);
+
+                responseReplyList.add(replyVO);
+
+            }
+
+        }
+        responseLists.setCommentList(responseCommentList);
+        responseLists.setReplyList(responseReplyList);
+        return responseLists;
     }
 
     @Override
@@ -124,7 +170,7 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public void editPost(PostServiceEditRequest request) {
+    public void editPost(PostServiceEditPostRequest request) {
         Post post = postRepository.findByPostId(request.getPostId());
         if (post.getPassword().equals(request.getPassword())){
             post.setTitle(request.getTitle());
@@ -208,14 +254,44 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public void deleteComment(Long commentId, Long userId) {
+    public PostServiceDeleteCommentResponse deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findByCommentId(commentId);
 
         if (comment.getUserId().equals(userId)) {
             commentRepository.delete(comment);
         } else {
-            throw new RuntimeException("본인 아님");
+            return PostServiceDeleteCommentResponse.builder()
+                    .success(false)
+                    .postId(comment.getPostId())
+                    .build();
         }
+
+        return PostServiceDeleteCommentResponse.builder()
+                .success(true)
+                .postId(comment.getPostId())
+                .build();
+    }
+
+    @Override
+    public void editComment(PostServiceEditCommentRequest request) {
+        Comment comment = commentRepository.findByCommentId(request.getCommentId());
+        comment.setComment(request.getComment());
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public Long saveReply(PostServiceSaveReplyRequest request) {
+
+        Comment parentComment = commentRepository.findByCommentId(request.getParentId());
+
+        commentRepository.save(Comment.builder()
+                .userId(request.getUserId())
+                .parentId(request.getParentId())
+                .postId(parentComment.getPostId())
+                .comment(request.getReply())
+                .build());
+
+        return parentComment.getPostId();
 
     }
 

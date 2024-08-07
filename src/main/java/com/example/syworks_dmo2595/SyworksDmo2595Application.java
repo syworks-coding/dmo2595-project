@@ -8,7 +8,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 
 
-//TODO : 대댓글, 댓글삭제, 댓글 좋아요 -> commentID가져오는거 해결해야지 구현가능
+//TODO : 대댓글
 @SpringBootApplication
 @EnableScheduling
 public class SyworksDmo2595Application {

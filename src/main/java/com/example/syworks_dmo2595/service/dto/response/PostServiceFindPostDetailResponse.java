@@ -13,4 +13,5 @@ public class PostServiceFindPostDetailResponse {
     private String userName;
     private String title;
     private String content;
+    private Long viewCount;
 }
