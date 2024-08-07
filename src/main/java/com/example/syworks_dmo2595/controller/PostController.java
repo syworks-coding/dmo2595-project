@@ -212,6 +212,11 @@ public class PostController {
     @DeleteMapping("/detail/{postId}")
     public final ModelAndView deletePostById(@PathVariable Long postId, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
+        if (session == null) {
+            modelAndView = needLoginResponse.needLogin(model);
+            return modelAndView;
+        }
+
         Long userId = (Long) session.getAttribute("userId");
         try {
             postService.deletePost(postId, userId);
