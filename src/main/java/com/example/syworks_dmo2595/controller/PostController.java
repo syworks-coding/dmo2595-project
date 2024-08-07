@@ -75,11 +75,7 @@ public class PostController {
         return modelAndView;
     }//페이지
 
-//    @GetMapping("detail/comment/{postId}")
-//    public String loadPostCommentPage(@PathVariable Long postId, Model model) {
-//
-//        return "/board/comment";
-//    }//페이지
+
 
     @GetMapping("detail/edit/{postId}")
     public ModelAndView loadPostEditPage(@PathVariable Long postId, Model model, HttpServletRequest request) {
@@ -106,7 +102,7 @@ public class PostController {
         Long userId = (Long) session.getAttribute("userId");
 
         if (!userId.equals(postService.findUserByCommentId(commentId))) {
-            model.addAttribute("message", "본인 댓글만 삭제가 가능합니다");
+            model.addAttribute("message", "본인 댓글만 수정이 가능합니다");
             model.addAttribute("searchUrl", "/posts/detail/" + postId);
             modelAndView.setViewName("message.html");
             return modelAndView;

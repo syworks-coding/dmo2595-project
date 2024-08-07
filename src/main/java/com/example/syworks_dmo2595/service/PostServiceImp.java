@@ -7,7 +7,6 @@ import com.example.syworks_dmo2595.service.dto.response.PostServiceFindCommentRe
 import com.example.syworks_dmo2595.service.dto.response.PostServiceFindPostDetailResponse;
 import com.example.syworks_dmo2595.service.dto.response.PostServiceLoadPostListResponse;
 import com.example.syworks_dmo2595.vos.CommentVO;
-import com.example.syworks_dmo2595.vos.ReplyVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -113,7 +112,7 @@ public class PostServiceImp implements PostService {
 //        List<Comment> commentList = commentRepository.findAllByPostIdOrderByCommentId(postId);
         PostServiceFindCommentResponse responseLists = new PostServiceFindCommentResponse();
         List<CommentVO> responseCommentList = new ArrayList<>();
-        List<ReplyVO> responseReplyList = new ArrayList<>();
+        List<CommentVO> responseReplyList = new ArrayList<>();
 
         Integer likeCount = 0;
         for (Comment comment : commentList) {
@@ -140,7 +139,7 @@ public class PostServiceImp implements PostService {
                 User user = userRepository.findByUserId(reply.getUserId());
                 likeCount = likeRepository.countByCommentId(reply.getCommentId());
 
-                ReplyVO replyVO = new ReplyVO();
+                CommentVO replyVO = new CommentVO();
 
                 replyVO.setCommentId(reply.getCommentId());
                 replyVO.setUserName(user.getUserName() + '[' + user.getLoginId() + ']');
