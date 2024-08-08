@@ -26,6 +26,9 @@
                         <button class="btn btn-outline-secondary" type="button" id="button-send">전송</button>
                     </div>
                 </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="disconn">나가기</button>
+                </div>
             </div>
         </div>
     </div>
@@ -37,6 +40,8 @@
         const username = [[${userName}]];
 
         $("#disconn").on("click", (e) => {
+            location.replace("/")
+            onClose(e);
             disconnect();
         })
 
