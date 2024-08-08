@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>업로드 페이지</title>
+</head>
+<body>
+<form th:action = "@{/posts/detail/{postId}(postId=${postId})}" th:method="put">
+    <div>
+        <input th:type="text" id="title" name="title" placeholder="수정할 제목을 입력하십시오">
+    </div>
+    <div>
+        <textarea th:type="text" id="content" name="content" placeholder="수정할 내용을 입력하십시오"> </textarea>
+    </div>
+    <div>
+        <input th:type="text" id="password" name="password" placeholder="확인용 게시글 비밀번호를 입력하십시오">
+    </div>
+    <div>
+        <button type="submit">수정</button>
+    </div>
+</form>
+<form th:action="@{/posts/board}" method="get">
+    <button type="submit">취소</button>
+</form>
+
+</body>
+</html>
