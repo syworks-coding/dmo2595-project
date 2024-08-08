@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserServiceLoginResponse {
     private Long userId;
+    private String userName;
 
 }

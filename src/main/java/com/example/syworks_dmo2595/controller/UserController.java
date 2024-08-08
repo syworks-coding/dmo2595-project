@@ -2,6 +2,7 @@ package com.example.syworks_dmo2595.controller;
 
 import com.example.syworks_dmo2595.controller.dto.request.UserLoginRequestBody;
 import com.example.syworks_dmo2595.controller.dto.request.UserSignUpRequestBody;
+import com.example.syworks_dmo2595.repository.User;
 import com.example.syworks_dmo2595.service.UserService;
 import com.example.syworks_dmo2595.service.dto.request.UserServiceLoginRequest;
 import com.example.syworks_dmo2595.service.dto.request.UserServiceSignupRequest;
@@ -91,6 +92,7 @@ public class UserController {
             }
 
             session.setAttribute("userId", userServiceLoginResponse.getUserId());
+            session.setAttribute("userName", userServiceLoginResponse.getUserName());
             model.addAttribute("message", "로그인 성공");
             model.addAttribute("searchUrl", "/");
 
@@ -107,6 +109,14 @@ public class UserController {
 //                .loginId(requestBody.getLoginId())
 //                .password(requestBody.getPassword())
 //                .build());
+    }
+
+
+    @GetMapping("/find")
+    public final void findUserBySession(Model model, HttpServletRequest request) {
+
+
+
     }
 
 

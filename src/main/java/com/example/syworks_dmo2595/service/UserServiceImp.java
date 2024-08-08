@@ -34,6 +34,11 @@ public class UserServiceImp implements UserService{
         }
     }
 
+    @Override
+    public User findUserByUserId(Long userId) {
+        return userRepository.findByUserId(userId);
+    }
+
 
     @Override
     public UserServiceLoginResponse loginUser(UserServiceLoginRequest request) {
@@ -46,6 +51,7 @@ public class UserServiceImp implements UserService{
 
         return UserServiceLoginResponse.builder()
                 .userId(user.getUserId())
+                .userName(user.getUserName())
                 .build();
     }
 
