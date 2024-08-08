@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글 수정 페이지</title>
+</head>
+<body>
+<form th:action = "@{/posts/detail/comment/{commentId}(commentId=${commentId})}" th:method="put">
+    <div>
+        <textarea th:type="text" id="content" name="content" placeholder="수정할 내용을 입력하십시오"> </textarea>
+    </div>
+    <div>
+        <button type="submit">수정</button>
+    </div>
+</form>
+<form th:action="@{/posts/board}" method="get">
+    <button type="submit">취소</button>
+</form>
+
+</body>
+</html>
