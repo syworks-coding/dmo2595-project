@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>대댓글 입력 페이지</title>
+</head>
+<body>
+<form th:action = "@{/posts/detail/reply/{parentId}(parentId=${commentId})}" th:method="post">
+    <div>
+        <textarea th:type="text" id="reply" name="reply" placeholder="대댓글 내용을 입력하십시오"> </textarea>
+    </div>
+    <div>
+        <button type="submit">확인</button>
+    </div>
+</form>
+<form th:action="@{/posts/board}" method="get">
+    <button type="submit">취소</button>
+</form>
+
+</body>
+</html>

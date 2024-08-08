@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+</head>
+
+
+
+
+<body>
+<h1>메인페이지</h1>
+<form th:action="@{/users/login}" method="get">
+    <button type="submit">로그인</button>
+</form>
+<form th:action="@{/users/signup}" method="get">
+    <button type="submit">회원가입</button>
+</form>
+<form th:action="@{/users/logout}" method="get">
+    <button type="submit">로그아웃</button>
+</form>
+<form th:action="@{/posts/board}" method="get">
+    <button type="submit">게시판</button>
+</form>
+<form th:action="@{/chat}" method="get">
+    <button type="submit">채팅</button>
+</form>
+
+
+</body>
+
+
+
+
+</html>
